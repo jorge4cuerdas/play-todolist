@@ -20,11 +20,13 @@ object Application extends Controller {
   )
 
   def index = Action {
-    Redirect(routes.Application.tasks)
+  	Ok(views.html.index(Task.all(), taskForm))
   }
 
+  //Aqui iria la lista d tareas en JSonk
   def tasks = Action {
-   Ok(views.html.index(Task.all(), taskForm))
+  	var json = Json.toJson(Task.all())
+  	Ok(json)
   }
 
   def newTask = Action { implicit request =>
@@ -32,6 +34,7 @@ object Application extends Controller {
       errors => BadRequest(views.html.index(Task.all(), errors)),
       label => {
          Task.create(label)
+         //Aqui devolver el json creado
          Redirect(routes.Application.tasks)
       }
    )
