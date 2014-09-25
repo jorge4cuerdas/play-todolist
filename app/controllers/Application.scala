@@ -5,12 +5,20 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import models.Task
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 object Application extends Controller {
+
+ implicit val taskWrites: Writes[Task] = (
+  	(JsPath \ "id").write[Long] and
+  	(JsPath \ "String").write[String] 
+ )(unlift(Task.unapply))
 
   val taskForm = Form(
      "label" -> nonEmptyText
   )
+
   def index = Action {
     Redirect(routes.Application.tasks)
   }
@@ -34,4 +42,9 @@ object Application extends Controller {
    Redirect(routes.Application.tasks)
   }
 
+  def getTask(id: Long) = Action {
+  	//Ok(views.html.index(Task.getTask(id), taskForm))
+  	var json = Json.toJson(Task.getTask(id))
+  	Ok(json)
+  }
 }
