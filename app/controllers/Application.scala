@@ -41,8 +41,16 @@ object Application extends Controller {
 }
 
   def deleteTask(id: Long) = Action {
-   Task.delete(id)
+   /*Task.delete(id)
    Redirect(routes.Application.tasks)
+   */
+   var cons = Task.getTask(id)
+   if(cons == Nil)
+      NotFound("No se ha encontrado la tarea")
+    else{
+      Task.delete(id)
+      Ok("Tarea borrada correctamente")
+    }
   }
 
   def getTask(id: Long) = Action {
