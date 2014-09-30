@@ -34,8 +34,8 @@ object Application extends Controller {
       errors => BadRequest(views.html.index(Task.all(), errors)),
       label => {
          Task.create(label)
-         //Aqui devolver el json creado
-         Redirect(routes.Application.tasks)
+         var json = Json.toJson(Task.getTask(Task.getLast()))
+         Created(json)
       }
    )
 }
