@@ -29,6 +29,12 @@ object Application extends Controller {
   	Ok(json)
   }
 
+  def getUTasks(usuario: String) = Action {
+  	//Comprobar si existe el usuario con un if!
+  	var json = Json.toJson(Task.getUTasks(usuario))
+  	Ok(json)
+  }
+
   def newTask = Action { implicit request =>
    taskForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(Task.all(), errors)),

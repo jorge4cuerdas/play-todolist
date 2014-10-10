@@ -49,4 +49,12 @@ object Task {
          ).as(task *)
       }
    }
+
+   def getUTasks(usuario: String): List[Task]={
+      DB.withConnection {implicit c =>
+         SQL("select * from task where usuario = {usuario}")on(
+            'id -> id
+         ).as(task *)
+      }
+   }
 }
