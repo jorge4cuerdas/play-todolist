@@ -35,6 +35,15 @@ object Application extends Controller {
   	Ok(json)
   }
 
+  def newUTasks(usuario: String) = Action { implicit request =>
+  	taskForm.bindFromRequest.fold(
+  		errors => BadRequest(views.html.index(Task.all(), errors)),
+  		label => {
+  			Task.createUTask(label, usuario)
+  			var json = Json.toJson(Task.getTask(Task.getLast()))
+  			Created(json)
+  			})}
+
   def newTask = Action { implicit request =>
    taskForm.bindFromRequest.fold(
       errors => BadRequest(views.html.index(Task.all(), errors)),

@@ -28,6 +28,15 @@ object Task {
       }
    }
 
+   def createUTask(label: String, usuario: String){
+      DB.withConnection { implicit c =>
+         SQL("insert into task (label, usuario) values ({label}, {usuario})").on(
+            'label -> label,
+            'usuario -> usuario
+         ).executeUpdate()
+      }
+   }
+
    def delete(id: Long) {
       DB.withConnection { implicit c =>
          SQL("delete from task where id = {id}").on(
