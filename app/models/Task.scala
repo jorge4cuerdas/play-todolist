@@ -28,6 +28,12 @@ object Task {
       }
    }
 
+   def userExists(nombre: String): Long = DB.withConnection { implicit c =>
+         SQL("select count(*) from usr where usr.nombre = {nombre}").on(
+            'nombre -> nombre
+         ).as(scalar[Long].single)
+   }
+
    def createUTask(label: String, usuario: String){
       DB.withConnection { implicit c =>
          SQL("insert into task (label, usuario) values ({label}, {usuario})").on(

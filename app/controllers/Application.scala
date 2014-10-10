@@ -30,19 +30,22 @@ object Application extends Controller {
   }
 
   def getUTasks(usuario: String) = Action {
-  	//Comprobar si existe el usuario con un if!
-  	var json = Json.toJson(Task.getUTasks(usuario))
-  	Ok(json)
-  }
+  	if(Task.userExists(usuario) == 1){
+  		var json = Json.toJson(Task.getUTasks(usuario))
+  		Ok(json)
+  	} else NotFound("No existe el usuario")
+ }
 
   def newUTasks(usuario: String) = Action { implicit request =>
+  	if(Task.userExists(usuario) != 1) NotFound("No se ha encontrado el usuario") else
   	taskForm.bindFromRequest.fold(
   		errors => BadRequest(views.html.index(Task.all(), errors)),
   		label => {
   			Task.createUTask(label, usuario)
   			var json = Json.toJson(Task.getTask(Task.getLast()))
   			Created(json)
-  			})}
+  			})
+ }
 
   def newTask = Action { implicit request =>
    taskForm.bindFromRequest.fold(
