@@ -17,12 +17,12 @@ object Task {
    }
 
    def all(): List[Task] = DB.withConnection {implicit c =>
-      SQL("select * from task").as(task *)
+      SQL("select * from task where usuario = 'Anonimin'").as(task *)
    }
 
    def create(label: String){
       DB.withConnection { implicit c =>
-         SQL("insert into task (label) values ({label})").on(
+         SQL("insert into task (label, usuario) values ({label}, 'Anonimin')").on(
             'label -> label
          ).executeUpdate()
       }
@@ -52,8 +52,8 @@ object Task {
 
    def getUTasks(usuario: String): List[Task]={
       DB.withConnection {implicit c =>
-         SQL("select * from task where usuario = {usuario}")on(
-            'id -> id
+         SQL("select * from task where usuario = {usuario}").on(
+            'usuario -> usuario
          ).as(task *)
       }
    }
