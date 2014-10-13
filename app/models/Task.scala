@@ -22,7 +22,7 @@ object Task {
 
    def create(label: String){
       DB.withConnection { implicit c =>
-         SQL("insert into task (label, usuario) values ({label}, 'Anonimin')").on(
+         SQL("insert into task (label, usuario, fecha) values ({label}, 'Anonimin', NULL)").on(
             'label -> label
          ).executeUpdate()
       }
@@ -36,7 +36,7 @@ object Task {
 
    def createUTask(label: String, usuario: String){
       DB.withConnection { implicit c =>
-         SQL("insert into task (label, usuario) values ({label}, {usuario})").on(
+         SQL("insert into task (label, usuario, fecha) values ({label}, {usuario}, NULL)").on(
             'label -> label,
             'usuario -> usuario
          ).executeUpdate()
