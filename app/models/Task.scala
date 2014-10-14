@@ -30,6 +30,12 @@ object Task {
       }
    }
 
+   def getUDateTask(usuario: String): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha is not null").on(
+         'usuario -> usuario
+      ).as(task *)
+   }
+
    def userExists(nombre: String): Long = DB.withConnection { implicit c =>
          SQL("select count(*) from usr where usr.nombre = {nombre}").on(
             'nombre -> nombre

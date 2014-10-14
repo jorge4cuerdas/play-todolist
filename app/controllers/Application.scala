@@ -38,6 +38,13 @@ object Application extends Controller {
   	} else NotFound("No existe el usuario")
  }
 
+ def tasksf(usuario: String) = Action {
+ 	if(Task.userExists(usuario) == 1){
+ 		var json = Json.toJson(Task.getUDateTask(usuario))
+ 		Ok(json)
+ 	} else NotFound("No existe usuario")
+ }
+
   def newUDateTask(usuario: String, fecha: String) = Action {implicit request =>
   	if(Task.userExists(usuario) != 1) NotFound("No se ha encontrado el usuario") else
   	taskForm.bindFromRequest.fold(
