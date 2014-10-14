@@ -36,6 +36,13 @@ object Task {
       ).as(task *)
    }
 
+   def withDate(usuario: String, fecha: String): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha = {fecha}").on(
+         'usuario -> usuario,
+         'fecha -> fecha
+         ).as(task *)
+   }
+
    def userExists(nombre: String): Long = DB.withConnection { implicit c =>
          SQL("select count(*) from usr where usr.nombre = {nombre}").on(
             'nombre -> nombre
