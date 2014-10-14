@@ -52,6 +52,15 @@ object Application extends Controller {
  		} else NotFound("No existe el usuario")
  }
 
+ def fechadesp(usuario: String, fecha: String) = Action{
+ 	if(Task.userExists(usuario) == 1){
+ 		var formato = new SimpleDateFormat("yyyy-MM-dd")
+  			var f = formato.parse(fecha)
+ 		var json = Json.toJson(Task.fechadesp(usuario, f))
+ 		Ok(json)
+ 	} else NotFound("No existe el usuario")
+ }
+
   def newUDateTask(usuario: String, fecha: String) = Action {implicit request =>
   	if(Task.userExists(usuario) != 1) NotFound("No se ha encontrado el usuario") else
   	taskForm.bindFromRequest.fold(

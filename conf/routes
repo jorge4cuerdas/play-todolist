@@ -20,5 +20,7 @@ POST 	/:usuario/tasks			controllers.Application.newUTasks(usuario: String)
 POST	/:usuario/tasks/:fecha		controllers.Application.newUDateTask(usuario: String, fecha: String)
 GET	/:usuario/tasksf		controllers.Application.tasksf(usuario: String)
 GET	/:usuario/withDate/:fecha	controllers.Application.withDate(usuario: String, fecha: String)
+GET	/:usuario/fechadesp/:fecha	controllers.Application.fechadesp(usuario: String, fecha: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)

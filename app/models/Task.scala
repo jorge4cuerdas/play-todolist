@@ -6,6 +6,7 @@ import play.api.db._
 import play.api.Play.current
 
 import java.util.Date
+import java.text.SimpleDateFormat
 
 case class Task(id: Long, label: String)
 
@@ -38,6 +39,13 @@ object Task {
 
    def withDate(usuario: String, fecha: String): List[Task] = DB.withConnection { implicit c =>
       SQL("select * from task where usuario = {usuario} and fecha = {fecha}").on(
+         'usuario -> usuario,
+         'fecha -> fecha
+         ).as(task *)
+   }
+
+   def fechadesp(usuario: String, fecha: Date): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha >= {fecha}").on(
          'usuario -> usuario,
          'fecha -> fecha
          ).as(task *)
