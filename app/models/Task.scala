@@ -5,6 +5,9 @@ import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
 
+import java.util.Date
+import java.text.SimpleDateFormat
+
 case class Task(id: Long, label: String)
 
 object Task {
@@ -22,10 +25,30 @@ object Task {
 
    def create(label: String){
       DB.withConnection { implicit c =>
-         SQL("insert into task (label, usuario) values ({label}, 'Anonimin')").on(
+         SQL("insert into task (label, usuario, fecha) values ({label}, 'Anonimin', NULL)").on(
             'label -> label
          ).executeUpdate()
       }
+   }
+
+   def getUDateTask(usuario: String): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha is not null").on(
+         'usuario -> usuario
+      ).as(task *)
+   }
+
+   def withDate(usuario: String, fecha: String): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha = {fecha}").on(
+         'usuario -> usuario,
+         'fecha -> fecha
+         ).as(task *)
+   }
+
+   def fechadesp(usuario: String, fecha: Date): List[Task] = DB.withConnection { implicit c =>
+      SQL("select * from task where usuario = {usuario} and fecha >= {fecha}").on(
+         'usuario -> usuario,
+         'fecha -> fecha
+         ).as(task *)
    }
 
    def userExists(nombre: String): Long = DB.withConnection { implicit c =>
@@ -34,9 +57,19 @@ object Task {
          ).as(scalar[Long].single)
    }
 
+   def createUDateTask(label: String, usuario: String, fecha: Date){
+   	DB.withConnection{ implicit c =>
+   		SQL("INSERT INTO task (label, usuario, fecha) values ({label}, {usuario}, {fecha})").on(
+   			'label -> label,
+   			'usuario -> usuario,
+   			'fecha -> fecha
+   			).executeUpdate()
+   		}
+   }
+
    def createUTask(label: String, usuario: String){
       DB.withConnection { implicit c =>
-         SQL("insert into task (label, usuario) values ({label}, {usuario})").on(
+         SQL("insert into task (label, usuario, fecha) values ({label}, {usuario}, NULL)").on(
             'label -> label,
             'usuario -> usuario
          ).executeUpdate()
