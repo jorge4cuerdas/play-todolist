@@ -5,6 +5,8 @@ import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
 
+import java.util.Date
+
 case class Task(id: Long, label: String)
 
 object Task {
@@ -32,6 +34,16 @@ object Task {
          SQL("select count(*) from usr where usr.nombre = {nombre}").on(
             'nombre -> nombre
          ).as(scalar[Long].single)
+   }
+
+   def createUDateTask(label: String, usuario: String, fecha: Date){
+   	DB.withConnection{ implicit c =>
+   		SQL("INSERT INTO task (label, usuario, fecha) values ({label}, {usuario}, {fecha})").on(
+   			'label -> label,
+   			'usuario -> usuario,
+   			'fecha -> fecha
+   			).executeUpdate()
+   		}
    }
 
    def createUTask(label: String, usuario: String){
