@@ -48,7 +48,11 @@ A continuación se procederá a explicar las funcionalidades implementadas en ca
 ```
 Nota: Todas las fechas son tratadas como fechas con formato americano. ej. YYYY-MM-DD
 ```
-
+```
+Los usuarios disponibles en la base de datos son: 
+	"Anonimin" como usuario anonimo para las funciones del feature 1
+	"Jorge" y "Payasin" como usuarios normales
+``
 
 - #####Creación de una nueva tarea con fecha limite
 	-  **Ruta**: `POST /{usuario}/tasks/{fecha} controllers.Application.newUDateTask(usuario: String, fecha: String)` 
