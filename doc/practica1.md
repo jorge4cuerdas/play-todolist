@@ -45,8 +45,13 @@ A continuación se procederá a explicar las funcionalidades implementadas en ca
 	- **Recurso**: `newUTasks(usuario)` Al igual que con el GET, se comprueba que el usuario exista, devolviendo un 404 Not Found en caso de negativa. Despues se envia a la capa de modelo el label para crear la tarea.
 	- **Modelo**: `createUTask(label)` Se añade una tarea a la base de datos referenciando al usuario pasado por parametro.
 
+```
+Nota: Todas las fechas son tratadas como fechas con formato americano. ej. YYYY-MM-DD
+```
+
+
 - #####Creación de una nueva tarea con fecha limite
-	-  **Ruta**: `POST /{usuario}/tasks/{fecha controllers.Application.newUDateTask(usuario: String, fecha: String)` 
+	-  **Ruta**: `POST /{usuario}/tasks/{fecha} controllers.Application.newUDateTask(usuario: String, fecha: String)` 
 	- **Recurso**: `newDateTask(usuario, fecha)` Función que comprueba que el usuario exista y llama a la capa de modelo para insertar a la base de datos la tarea con la fecha.
 	- **Modelo**: `createUDateTask(label, usuario, fecha)` Añade una tarea con los parametros pasados.
 	
